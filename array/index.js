@@ -5,7 +5,8 @@
 // 5. mergeSort
 // 6. Swap array elements
 // 7. Pivot
-
+// 8. Quick Sort Array
+// 9. Given an integer array nums, find the subarray with the largest sum, and return its sum.
 
 const array = [3, 4, 4, 5, 3, 6, 4, 3, 9, 7, 4, 4];
 
@@ -121,20 +122,69 @@ function swapArray(array, firstIndex, secondIndex){
 
 // 7. pivot
 
-function pivot(array){
-let pivotIndex=0;
-let endIndex = array.length-1;
-let swapIndex = pivotIndex;
-for(let i=pivotIndex+1; i<=endIndex; i++){
-    if(array[i] < array[swapIndex]){
-        swapIndex++;
-        swapArray(array, swapIndex, i);
-    }
-}
-swapArray(array, pivotIndex, swapIndex);
+// function pivot(array, pivotIndex=0, endIndex = array.length-1){
+// let swapIndex = pivotIndex;
+// for(let i=pivotIndex+1; i<=endIndex; i++){
+//     if(array[i] < array[pivotIndex]){
+//         swapIndex++;
+//         swapArray(array, swapIndex, i);
+//     }
+// }
+// swapArray(array, pivotIndex, swapIndex);
+// return swapIndex;
+// }
+
+function pivot(array, pivotIndex=0, endIndex=array.length-1) {
+  let swapIndex = pivotIndex;
+  for (let i = pivotIndex + 1; i <= endIndex; i++) {
+      if (array[i] < array[pivotIndex]) {
+      swapIndex++;
+      swapArray(array, swapIndex, i);
+      }  
+  }
+  swapArray(array, pivotIndex, swapIndex);
+
 return swapIndex;
 }
 
-console.log("Before pivot", array);
-console.log(pivot(array));
-console.log("After pivot", array);
+// console.log("Before pivot", array);
+// console.log(pivot(array));
+// console.log("After pivot", array);
+
+// 8. Quick Sort Array
+
+function quickSortArray(array, left=0, right= array.length-1){
+  if(left < right){
+    let pivotIndex = pivot(array, left, right);
+    quickSortArray(array, left, pivotIndex-1);
+    quickSortArray(array, pivotIndex+1, right);
+  }
+  return array;
+
+}
+
+// console.log(quickSortArray([4,6,1,7,3,2,5]));
+
+//9. Given an integer array nums, find the subarray with the largest sum, and return its sum.
+// link: https://leetcode.com/problems/maximum-subarray/description/
+
+
+const maxSubArray = function(nums) {
+
+  let max =nums[0], current=nums[0];
+  for(let i=0, j=1; i < nums.length; j++){
+      current += nums[j];
+      if(current > max){
+          max = current;
+      }
+      if(j >= nums.length-1){
+          i++;
+          j=i;
+          current=0;
+      }
+  }
+  return max;
+};
+
+// console.log(maxSubArray([-2,1,-3,4,-1,2,1,-5,4]));
+
